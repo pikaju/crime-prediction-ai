@@ -1,0 +1,4 @@
+frames/
+**/__pycache__/
+**/*.csv
+**/*.npy
