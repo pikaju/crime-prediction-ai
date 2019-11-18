@@ -33,7 +33,7 @@ def load(filename):
 
 def generate_heatmaps(data):
     start = int(data[0][0]) + 3600 * 24 * 8
-    stop = start + 3600 * 24 * 365 * 4  # int(data[-1][0])
+    stop = int(data[-1][0])
     step = 3600 * 24
 
     heatmaps = []
