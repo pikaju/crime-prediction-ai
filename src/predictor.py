@@ -7,8 +7,8 @@ def create(input_shape, sequence_length):
     inputs = tf.keras.Input(shape=(sequence_length, *input_shape))
 
     x = inputs
-    x = layers.TimeDistributed(layers.Conv2D(64, 5, 2, activation='relu', padding='same'))(x)
-    x = layers.ConvLSTM2D(128, 5, 2, activation='relu', padding='same')(x)
+    x = layers.TimeDistributed(layers.Conv2D(32, 5, 2, activation='relu', padding='same'))(x)
+    x = layers.ConvLSTM2D(32, 5, 2, activation='relu', padding='same')(x)
     x = layers.Conv2DTranspose(16, 3, 2, activation='relu', padding='same')(x)
     x = layers.Conv2DTranspose(1, 3, 2, activation='relu', padding='same')(x)
     outputs = x

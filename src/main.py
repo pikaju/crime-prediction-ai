@@ -8,7 +8,7 @@ def main():
     data = np.load('heatmaps.npy')
     data = data[..., tf.newaxis]
 
-    sequence_length = 4
+    sequence_length = 6
 
     x, y = [], []
     for i in range(sequence_length, len(data)):
@@ -25,7 +25,7 @@ def main():
     y_test = y[-split:]
 
     model.fit(x_train, y_train,
-              batch_size=32,
+              batch_size=128,
               epochs=10,
               validation_split=0.2)
 
