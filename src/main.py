@@ -4,25 +4,20 @@ import heatmap
 import predictor
 
 
-loss_object = tf.keras.losses.MeanSquaredError()
-optimizer = tf.keras.optimizers.Adam()
-
-train_loss = tf.keras.metrics.Mean(name='train_loss')
-train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(
-    name='train_accuracy')
-
-test_loss = tf.keras.metrics.Mean(name='test_loss')
-test_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(
-    name='test_accuracy')
-
-
 def main():
     data = np.load('heatmaps.npy')
     data = data[..., tf.newaxis]
 
-    model = predictor.create(data[0].shape)
+    sequence_length = 4
 
-    x, y = data[:-1], data[1:]
+    x, y = [], []
+    for i in range(sequence_length, len(data)):
+        x.append(data[i-sequence_length:i])
+        y.append(data[i])
+    x, y = np.array(x), np.array(y)
+
+    model = predictor.create(data[0].shape, sequence_length)
+
     split = len(x) // 5
     x_train = x[:-split]
     y_train = y[:-split]
@@ -38,8 +33,8 @@ def main():
 
     y_pred = model.predict(x_test)
     for i, (yt, yp) in enumerate(zip(y_test, y_pred)):
-        stacked = np.vstack((yt, yp))
-        heatmap.save('frames/frame_{}.png'.format(i),
+        stacked = np.hstack((yt, yp))
+        heatmap.save('../frames/frame_{}.png'.format(i),
                      stacked.reshape(stacked.shape[:-1]))
 
 

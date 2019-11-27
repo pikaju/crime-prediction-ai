@@ -32,19 +32,19 @@ def load(filename):
 
 
 def generate_heatmaps(data):
-    start = int(data[0][0]) + 3600 * 24 * 8
+    start = int(data[0][0]) + 3600 * 6 * 8
     stop = int(data[-1][0])
-    step = 3600 * 24
+    step = 3600 * 6
 
     heatmaps = []
 
     for timestamp in range(start, stop, step):
         hm = heatmap.generate_timeinterval(data,
-                                           (timestamp - 3600 * 24, timestamp),
+                                           (timestamp - step, timestamp),
                                            resolution,
                                            chicago_min_coordinates,
                                            chicago_max_coordinates)
-        hm /= 16.0
+        hm /= 4.0
         heatmaps.append(hm)
 
     return np.array(heatmaps)
